@@ -1,0 +1,59 @@
+#!/usr/bin/python3
+
+import fnmatch
+import glob
+import os
+import os.path
+
+import yaml
+
+PRELOAD_CONTENT_SLOTS = {
+    #"gnome-3-34-1804",
+    "gnome-3-38-2004",
+    #"kde-frameworks-5-core18-slot",
+    #"wine-3-stable",
+}
+
+def size_to_str(s):
+    size = s
+    for unit in ['B', 'kB', 'MB', 'GB']:
+        if size < 1024.0:
+            break
+        size /= 1024.0
+    return f"{round(size)} {unit}"
+
+def preload_libs(rootdir):
+    size = 0
+    num = 0
+    for dirname, _, filenames in os.walk(rootdir):
+        for lib in fnmatch.filter(filenames, "*.so*"):
+            p = os.path.join(dirname, lib)
+            if os.path.islink(p):
+                continue
+            # cache it
+            fp = os.open(p, os.O_RDONLY)
+            while True:
+                # read in 4mb buffer size
+                b = os.read(fp, 4*1024*1024)
+                if len(b) == 0:
+                    break
+            os.close(fp)
+            num += 1
+            size += os.path.getsize(p)
+    print(f"Preloaded {num} libs in {rootdir} with size {size_to_str(size)}")
+    
+
+def main(rootdir=""):
+    for p in glob.iglob(rootdir+"/snap/*/current/meta/snap.yaml"):
+        with open(p) as fp:
+            y = yaml.load(fp, Loader=yaml.SafeLoader)
+            for name in y.get("slots", []):
+                if y["slots"][name].get("interface") == "content":
+                    if name in PRELOAD_CONTENT_SLOTS:
+                        p = p.removesuffix("meta/snap.yaml")
+                        preload_libs(p)
+
+    
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,10 @@
+[Unit]
+Description=Precache content snap libraries
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/snap-precache
+RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target

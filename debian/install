@@ -1,0 +1,2 @@
+snap-precache usr/bin/
+snap-precache.service lib/systemd/system/

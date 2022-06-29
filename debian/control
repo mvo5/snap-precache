@@ -1,0 +1,13 @@
+Source: snap-precache
+Section: utils
+Priority: optional
+Maintainer: Michael Vogt <Michael Vogt <michael.vogt@ubuntu.com>>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.6.0
+
+Package: snap-precache
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Precache snaps
+ Precache libs from the content snaps
+ 
