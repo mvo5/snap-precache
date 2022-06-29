@@ -51,6 +51,7 @@ def main(rootdir=""):
                 if y["slots"][name].get("interface") == "content":
                     if name in PRELOAD_CONTENT_SLOTS:
                         p = p.removesuffix("meta/snap.yaml")
+                        print(f"Preloading {p}")
                         preload_libs(p)
 
     
