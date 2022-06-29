@@ -5,6 +5,9 @@ Description=Precache content snap libraries
 Type=oneshot
 ExecStart=/usr/bin/snap-precache
 RemainAfterExit=true
+Nice=19
+IOSchedulingClass=idle
+IOSchedulingPriority=7
 
 [Install]
 WantedBy=multi-user.target
