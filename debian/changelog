@@ -1,3 +1,9 @@
+snap-precache (0.2.1) jammy; urgency=medium
+
+  * set nice/ionice in service
+
+ -- Michael Vogt <michael.vogt@ubuntu.com>  Wed, 29 Jun 2022 18:46:48 +0200
+
 snap-precache (0.2) jammy; urgency=medium
 
   * Initial release
